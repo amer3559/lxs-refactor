@@ -1,65 +1,24 @@
 <template>
-  <div class="app-layout auth-layout">
-    <div class="app-navbar auth-navbar animate__animated animate__fadeInDown">
-      <AppNavbar :layoutType="appLayouts.auth" />
-    </div>
+  <v-layout ref="app" class="rounded rounded-md">
+    <v-app-bar color="grey-lighten-2" name="app-bar"> nav </v-app-bar>
 
-    <div class="app-content auth-content">
-      <BarsPreloader v-if="isBarsPreloaderShown" />
-      <AppOverlay v-if="isContentOverlayShown" />
-      <AppLayer
-        v-if="isAppLayerShown"
-        :currentLayerComponent="currentLayerComponent"
-        @hideAppLayer="hideAppLayer()"
-      />
-      <div class="app-content-container">
-        <router-view class="main-content-container" />
-        <div class="app-footer">
-          <AppFooter />
-        </div>
+    <v-main
+      class="d-flex align-center justify-center"
+      style="min-height: 300px"
+    >
+      <div class="app-layout auth-layout">
+        <router-view></router-view>
       </div>
-    </div>
-  </div>
+    </v-main>
+
+    <v-footer name="footer" app> footer </v-footer>
+  </v-layout>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
-import AppNavbar from "./components/AppNavbar.vue";
-import BarsPreloader from "./../components/preloaders/BarsPreloader.vue";
-import AppOverlay from "../components/general/AppOverlay.vue";
-import AppLayer from "../components/general/AppLayer.vue";
-import AppFooter from "./components/AppFooter.vue";
+<script lang="ts">
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "AuthLayout",
-  beforeCreate() {},
-  props: {},
-  data() {
-    return {};
-  },
-  created() {},
-  watch: {},
-  beforeMount() {},
-  mounted() {},
-  components: {
-    AppNavbar,
-    BarsPreloader,
-    AppOverlay,
-    AppLayer,
-    AppFooter,
-  },
-  computed: {
-    ...mapGetters([
-      "appLayouts",
-      "isBarsPreloaderShown",
-      "isContentOverlayShown",
-      "isAppLayerShown",
-      "currentLayerComponent",
-    ]),
-  },
-  methods: {
-    ...mapActions(["hideAppLayer"]),
-  },
-};
+});
 </script>
