@@ -4,9 +4,10 @@ import HomeView from "@/views/HomeView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "home",
+    name: "Home",
     component: HomeView,
     meta: {
+      pageName: "Home",
       layout: "auth",
     },
   },
@@ -15,7 +16,26 @@ const routes: Array<RouteRecordRaw> = [
     name: "Test",
     component: () => import("@/views/TestView.vue"),
     meta: {
-      pageName: "test",
+      pageName: "Test",
+    },
+  },
+  //#region Error
+  {
+    path: "/error-404",
+    name: "Error404",
+    components: {
+      default: () => import("@/views/TestView.vue"),
+    },
+    meta: {
+      pageName: "pageNotFound",
+      layout: "auth",
+    },
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: { name: "Error404" },
+    meta: {
+      layout: "auth",
     },
   },
 ];
@@ -23,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.pageName as string;
+  next();
 });
 
 export default router;
